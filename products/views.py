@@ -1,3 +1,6 @@
+from django.test import TestCase
+from django.urls import reverse
+from your_app.models import Product
 from django.shortcuts import render
 from rest_framework import generics, permissions
 from .models import Product, Cart, CartItem, Contact, Order

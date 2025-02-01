@@ -2,6 +2,8 @@ from django.contrib.auth.base_user import BaseUserManager
 from django.contrib.auth.models import AbstractUser, Group, Permission
 from django.db import models
 from django.utils.translation import gettext_lazy as _
+from imagekit.models import ProcessedImageField
+from imagekit.processors import ResizeToFill
 
 # Типы пользователей: Магазин и Покупатель
 USER_TYPE_CHOICES = (
@@ -82,6 +84,15 @@ class Product(models.Model):
     characteristics = models.TextField(verbose_name='Характеристики')
     price = models.DecimalField(max_digits=10, decimal_places=2, verbose_name='Цена')
     stock = models.PositiveIntegerField(verbose_name='Количество на складе')
+
+    # Добавляем изображение товара
+    image = ProcessedImageField(
+        upload_to='products/',
+        processors=[ResizeToFill(300, 200)],
+        format='JPEG',
+        options={'quality': 90},
+        verbose_name='Изображение'
+    )
 
     def __str__(self):
         return self.name
